@@ -222,7 +222,7 @@ namespace SatelliteDataProcessingProject
         Once the search is complete the stopwatch will stop, and the number of ticks will be displayed in a read only textbox. 
         Finally, the code/method will call the “DisplayListboxData” method and highlight the search target number and two values on each side.
         */
-        public void SensorA_BinarySearchIterative()
+        private void BinarySearchIterativeA_Button_Click(object sender, RoutedEventArgs e)
         {
 
         }

@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SatelliteDataProcessingProject"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Data Processing" Height="450" Width="800">
+    <Grid Background="#FFCFEEFF">
         <ListView x:Name="Sensors_ListView" d:ItemsSource="{Binding List1}" Margin="10,136,598,10">
             <ListView.View>
                 <GridView>
@@ -16,10 +16,25 @@
             </ListView.View>
         </ListView>
         <Button Content="Load Data" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Height="43" Width="192" Click="Button_Click"/>
-        <Label Content="Sensor A" HorizontalAlignment="Left" Margin="389,46,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18"/>
-        <ListBox x:Name="SensorA_ListBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="366,98,303,10"/>
-        <Label Content="Sensor B" HorizontalAlignment="Left" Margin="666,46,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18"/>
-        <ListBox x:Name="SensorB_ListBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="642,98,27,10"/>
+        <Label Content="Sensor A" HorizontalAlignment="Left" Margin="316,29,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18"/>
+        <ListBox x:Name="SensorA_ListBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="366,91,303,10"/>
+        <Label Content="Sensor B" HorizontalAlignment="Left" Margin="602,29,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18"/>
+        <ListBox x:Name="SensorB_ListBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="642,91,27,10"/>
+
+        <Label Content="Binary Search Iterative" HorizontalAlignment="Left" Margin="222,91,0,0" VerticalAlignment="Top"/>
+        <Button Content="Search" HorizontalAlignment="Left" Margin="235,120,0,0" VerticalAlignment="Top" Height="23" Width="102" Click="BinarySearchIterativeA_Button_Click"/>
+        <TextBox HorizontalAlignment="Left" Margin="226,147,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+
+        <Label Content="Binary Search Recursive" HorizontalAlignment="Left" Margin="222,186,0,0" VerticalAlignment="Top"/>
+        <Button Content="Search" HorizontalAlignment="Left" Margin="235,217,0,0" VerticalAlignment="Top" Height="23" Width="102" Click="BinarySearchRecursive_Button_Click"/>
+
+        <Label Content="Selection Sort" HorizontalAlignment="Left" Margin="244,280,0,0" VerticalAlignment="Top"/>
+        <Button Content="Search" HorizontalAlignment="Left" Margin="235,311,0,0" VerticalAlignment="Top" Height="23" Width="102" Click="SelectionSort_Button_Click"/>
+
+        <Label Content="Insertion Slot" HorizontalAlignment="Left" Margin="244,369,0,0" VerticalAlignment="Top"/>
+        <Button Content="Search" HorizontalAlignment="Left" Margin="235,400,0,0" VerticalAlignment="Top" Height="23" Width="102" Click="InsertionSort_Button_Click"/>
+
+
 
     </Grid>
 </Window>
