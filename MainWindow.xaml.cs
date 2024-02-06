@@ -18,7 +18,8 @@ using System.Text.RegularExpressions;
 namespace SatelliteDataProcessingProject
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// RAYMOND LAI
+    /// STUDENT ID: 30082866
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -49,7 +50,7 @@ namespace SatelliteDataProcessingProject
 
             for (int i = 0; i < 400; i++)
             {
-                List1.AddFirst(data.SensorA(Sigma_IntUpDown.Value.Value, Mu_IntUpDown.Value.Value)); //TODO: Replace values
+                List1.AddFirst(data.SensorA(Sigma_IntUpDown.Value.Value, Mu_IntUpDown.Value.Value));
                 List2.AddFirst(data.SensorB(Sigma_IntUpDown.Value.Value, Mu_IntUpDown.Value.Value));
             }
         }
@@ -59,6 +60,7 @@ namespace SatelliteDataProcessingProject
             {
                 return false;
             }
+            DisplayMessage("Please load Data","Error");
             return true;
         }
 
@@ -178,7 +180,7 @@ namespace SatelliteDataProcessingProject
         {
             while(min <= max - 1)
             {
-                int middle = min + max / 2;
+                int middle = (min + max) / 2;
                 if(searchValue == list.ElementAt(middle))
                 {
                     return ++middle;
@@ -189,7 +191,7 @@ namespace SatelliteDataProcessingProject
                 }
                 else
                 {
-                    max = middle + 1;
+                    min = middle + 1;
                 }
             }
             return min;
@@ -203,7 +205,7 @@ namespace SatelliteDataProcessingProject
         {
             if(min <= max - 1)
             {
-                int middle = min + max / 2;
+                int middle = (min + max) / 2;
                 if(searchValue == list.ElementAt(middle))
                 {
                     return middle;
@@ -233,37 +235,74 @@ namespace SatelliteDataProcessingProject
         private void BinarySearchIterativeA_Button_Click(object sender, RoutedEventArgs e)
         {
             if (CheckIfCensorDataIsEmpty()) {  return; }
-
-            SelectionSort(List1);
+            if (SearchTargetA_Textbox.Text == string.Empty) { DisplayMessage("Please input Search Value", "Error"); return; }
 
             var sw = Stopwatch.StartNew();
-            
-            BinarySearchIterative(List1, int.Parse(SearchTargetA_Textbox.Text), 0, List1.Count);
 
+            int result = BinarySearchIterative(List1, int.Parse(SearchTargetA_Textbox.Text), 0, List1.Count);
+            
             sw.Stop();
             BinarySearchIterativeA_Timer.Text = sw.ElapsedTicks.ToString() + " ticks";
 
             DisplayListboxData(List1, "SensorA");
+            SensorA_ListBox.SelectedIndex = result;
+            SensorA_ListBox.ScrollIntoView(SensorA_ListBox.SelectedItem);
+            SensorB_ListBox.SelectedIndex = result;
+            SensorB_ListBox.ScrollIntoView(SensorB_ListBox.SelectedItem);
         }
         public void BinarySearchRecursiveA_Button_Click(object sender, RoutedEventArgs e)
         {
             if (CheckIfCensorDataIsEmpty()) { return; }
+            if (SearchTargetA_Textbox.Text == string.Empty) { DisplayMessage("Please input Search Value", "Error"); return; }
+
+            var sw = Stopwatch.StartNew();
 
             int result = BinarySearchRecursive(List1, int.Parse(SearchTargetA_Textbox.Text), 0, List1.Count);
-            Debug.WriteLine(result);
+
+            sw.Stop();
+            BinarySearchRecursiveA_Timer.Text = sw.ElapsedTicks.ToString() + " ticks";
+
             DisplayListboxData(List1, "SensorA");
+            SensorA_ListBox.SelectedIndex = result;
+            SensorA_ListBox.ScrollIntoView(SensorA_ListBox.SelectedItem);
+            SensorB_ListBox.SelectedIndex = result;
+            SensorB_ListBox.ScrollIntoView(SensorB_ListBox.SelectedItem);
         }
         public void BinarySearchIterativeB_Button_Click(object sender, RoutedEventArgs e)
         {
             if (CheckIfCensorDataIsEmpty()) { return; }
+            if (SearchTargetB_Textbox.Text == string.Empty) { DisplayMessage("Please input Search Value", "Error"); return; }
+
+            var sw = Stopwatch.StartNew();
+
+            int result = BinarySearchIterative(List2, int.Parse(SearchTargetB_Textbox.Text), 0, List2.Count);
+
+            sw.Stop();
+            BinarySearchIterativeB_Timer.Text = sw.ElapsedTicks.ToString() + " ticks";
 
             DisplayListboxData(List2, "SensorB");
+            SensorA_ListBox.SelectedIndex = result;
+            SensorA_ListBox.ScrollIntoView(SensorA_ListBox.SelectedItem);
+            SensorB_ListBox.SelectedIndex = result;
+            SensorB_ListBox.ScrollIntoView(SensorB_ListBox.SelectedItem);
         }
         public void BinarySearchRecursiveB_Button_Click(object sender, RoutedEventArgs e)
         {
             if (CheckIfCensorDataIsEmpty()) { return; }
+            if (SearchTargetB_Textbox.Text == string.Empty) { DisplayMessage("Please input Search Value", "Error"); return; }
+
+            var sw = Stopwatch.StartNew();
+
+            int result = BinarySearchRecursive(List2, int.Parse(SearchTargetB_Textbox.Text), 0, List2.Count);
+
+            sw.Stop();
+            BinarySearchRecursiveB_Timer.Text = sw.ElapsedTicks.ToString() + " ticks";
 
             DisplayListboxData(List2, "SensorB");
+            SensorA_ListBox.SelectedIndex = result;
+            SensorA_ListBox.ScrollIntoView(SensorA_ListBox.SelectedItem);
+            SensorB_ListBox.SelectedIndex = result;
+            SensorB_ListBox.ScrollIntoView(SensorB_ListBox.SelectedItem);
         }
 
         /*
@@ -354,6 +393,12 @@ namespace SatelliteDataProcessingProject
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
+        }
+
+        // Misc
+        private void DisplayMessage(string msg, string type)
+        {
+            MessageBox.Show(msg, type);
         }
     }
 
