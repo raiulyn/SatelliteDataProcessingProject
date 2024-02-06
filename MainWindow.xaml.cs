@@ -13,6 +13,7 @@ using Galileo6;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
 
 namespace SatelliteDataProcessingProject
 {
@@ -26,6 +27,7 @@ namespace SatelliteDataProcessingProject
             InitializeComponent();
 
             DataContext = this;
+            Init_IntUpDowns();
         }
 
         //4.1 Create two data structures using the LinkedList<T> class from the C# Systems.Collections.Generic namespace.
@@ -75,8 +77,6 @@ namespace SatelliteDataProcessingProject
         {
             LoadData();
             ShowAllSensorData();
-            DisplayListboxData(List1, "SensorA"); //TEST
-            DisplayListboxData(List2, "SensorB"); //TEST
         }
 
         //4.5 Create a method called “NumberOfNodes” that will return an integer which is the number of nodes(elements) in a LinkedList.
@@ -224,19 +224,19 @@ namespace SatelliteDataProcessingProject
         */
         private void BinarySearchIterativeA_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            DisplayListboxData(List1, "SensorA");
         }
-        public void SensorA_BinarySearchRecursive()
+        public void BinarySearchRecursiveA_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            DisplayListboxData(List1, "SensorA");
         }
-        public void SensorB_BinarySearchIterative()
+        public void BinarySearchIterativeB_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            DisplayListboxData(List1, "SensorA");
         }
-        public void SensorB_BinarySearchRecursive()
+        public void BinarySearchRecursiveB_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            DisplayListboxData(List1, "SensorA");
         }
 
         /*
@@ -249,33 +249,59 @@ namespace SatelliteDataProcessingProject
         Once the sort is complete the stopwatch will stop, and the number of milliseconds will be displayed in a read only textbox. 
         Finally, the code/method will call the “ShowAllSensorData” method and “DisplayListboxData” for the appropriate sensor.
         */
-        public void SensorA_SelectionSort()
+        public void SelectionSortA_Button_Click(object sender, RoutedEventArgs e)
         {
+            DisplayListboxData(List1, "SensorA");
+            if(SelectionSort(List1))
+            {
 
+            }
         }
-        public void SensorA_InsertionSort()
+        public void InsertionSortA_Button_Click(object sender, RoutedEventArgs e)
         {
+            DisplayListboxData(List1, "SensorA");
+            if (InsertionSort(List1))
+            {
 
+            }
         }
-        public void SensorB_SelectionSort()
+        public void SelectionSortB_Button_Click(object sender, RoutedEventArgs e)
         {
+            DisplayListboxData(List2, "SensorB");
+            if (SelectionSort(List2))
+            {
 
+            }
         }
-        public void SensorB_InsertionSort()
+        public void InsertionSortB_Button_Click(object sender, RoutedEventArgs e)
         {
+            DisplayListboxData(List2, "SensorB");
+            if (InsertionSort(List2))
+            {
 
+            }
         }
 
         //4.13 Add numeric input controls for Sigma and Mu. The value for Sigma must be limited with a minimum of 10 and a maximum of 20.
         //Set the default value to 10. The value for Mu must be limited with a minimum of 35 and a maximum of 75. Set the default value to 50.
 
-        // TODO
-
+        public void Init_IntUpDowns()
+        {
+            Sigma_IntUpDown.Minimum = 10;
+            Sigma_IntUpDown.Maximum = 20;
+            Sigma_IntUpDown.DefaultValue = Sigma_IntUpDown.Value = 10;
+            Mu_IntUpDown.Minimum = 35;
+            Mu_IntUpDown.Maximum = 75;
+            Mu_IntUpDown.DefaultValue = Mu_IntUpDown.Value = 50;
+        }
 
         //4.14 Add textboxes for the search value; one for each sensor, ensure only numeric integer values can be entered.
 
-        // TODO
-
+        private void SearchTargetA_Textbox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
     }
 
     //4.15 All code is required to be adequately commented.

@@ -3,11 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpfTool="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:SatelliteDataProcessingProject"
         mc:Ignorable="d"
         Title="Data Processing" Height="450" Width="800">
     <Grid Background="#FFCFEEFF">
-        <ListView x:Name="Sensors_ListView" d:ItemsSource="{Binding List1}" Margin="10,136,598,10">
+        <ListView x:Name="Sensors_ListView" d:ItemsSource="{Binding List1}" Margin="10,136,0,0" HorizontalAlignment="Left" Width="192" Height="288" VerticalAlignment="Top">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Sensor A" DisplayMemberBinding="{Binding SensorA}"/>
@@ -16,25 +17,35 @@
             </ListView.View>
         </ListView>
         <Button Content="Load Data" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Height="43" Width="192" Click="Button_Click"/>
-        <Label Content="Sensor A" HorizontalAlignment="Left" Margin="316,29,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18"/>
-        <ListBox x:Name="SensorA_ListBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="366,91,303,10"/>
-        <Label Content="Sensor B" HorizontalAlignment="Left" Margin="602,29,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18"/>
-        <ListBox x:Name="SensorB_ListBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="642,91,27,10"/>
+        <Label Content="Sensor A" HorizontalAlignment="Left" Margin="316,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18"/>
+        <ListBox x:Name="SensorA_ListBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="366,55,0,0" HorizontalAlignment="Left" Width="131" Height="333" VerticalAlignment="Top"/>
+        <Label Content="Sensor B" HorizontalAlignment="Left" Margin="602,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="18"/>
+        <ListBox x:Name="SensorB_ListBox" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="642,55,0,0" HorizontalAlignment="Left" Width="131" Height="333" VerticalAlignment="Top"/>
 
-        <Label Content="Binary Search Iterative" HorizontalAlignment="Left" Margin="222,91,0,0" VerticalAlignment="Top"/>
-        <Button Content="Search" HorizontalAlignment="Left" Margin="235,120,0,0" VerticalAlignment="Top" Height="23" Width="102" Click="BinarySearchIterativeA_Button_Click"/>
-        <TextBox HorizontalAlignment="Left" Margin="226,147,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Binary Search Iterative" HorizontalAlignment="Left" Margin="222,54,0,0" VerticalAlignment="Top"/>
+        <Button Content="Search" HorizontalAlignment="Left" Margin="235,83,0,0" VerticalAlignment="Top" Height="23" Width="102" Click="BinarySearchIterativeA_Button_Click"/>
+        <TextBox HorizontalAlignment="Left" Margin="226,108,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
 
-        <Label Content="Binary Search Recursive" HorizontalAlignment="Left" Margin="222,186,0,0" VerticalAlignment="Top"/>
-        <Button Content="Search" HorizontalAlignment="Left" Margin="235,217,0,0" VerticalAlignment="Top" Height="23" Width="102" Click="BinarySearchRecursive_Button_Click"/>
+        <Label Content="Binary Search Recursive" HorizontalAlignment="Left" Margin="222,140,0,0" VerticalAlignment="Top"/>
+        <Button Content="Search" HorizontalAlignment="Left" Margin="235,171,0,0" VerticalAlignment="Top" Height="23" Width="102" Click="BinarySearchRecursiveA_Button_Click"/>
+        <TextBox HorizontalAlignment="Left" Margin="226,197,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
 
-        <Label Content="Selection Sort" HorizontalAlignment="Left" Margin="244,280,0,0" VerticalAlignment="Top"/>
-        <Button Content="Search" HorizontalAlignment="Left" Margin="235,311,0,0" VerticalAlignment="Top" Height="23" Width="102" Click="SelectionSort_Button_Click"/>
+        <Label Content="Selection Sort" HorizontalAlignment="Left" Margin="244,267,0,0" VerticalAlignment="Top"/>
+        <Button Content="Search" HorizontalAlignment="Left" Margin="235,298,0,0" VerticalAlignment="Top" Height="23" Width="102" Click="SelectionSortA_Button_Click"/>
+        <TextBox HorizontalAlignment="Left" Margin="226,324,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
 
-        <Label Content="Insertion Slot" HorizontalAlignment="Left" Margin="244,369,0,0" VerticalAlignment="Top"/>
-        <Button Content="Search" HorizontalAlignment="Left" Margin="235,400,0,0" VerticalAlignment="Top" Height="23" Width="102" Click="InsertionSort_Button_Click"/>
+        <Label Content="Search Target" HorizontalAlignment="Left" Margin="205,239,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="SearchTargetA_Textbox" HorizontalAlignment="Left" Margin="291,244,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="58" PreviewTextInput="SearchTargetA_Textbox_PreviewTextInput"/>
 
+        <Label Content="Insertion Slot" HorizontalAlignment="Left" Margin="244,347,0,0" VerticalAlignment="Top"/>
+        <Button Content="Search" HorizontalAlignment="Left" Margin="235,378,0,0" VerticalAlignment="Top" Height="23" Width="102" Click="InsertionSortA_Button_Click"/>
+        <TextBox HorizontalAlignment="Left" Margin="226,405,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
 
-
+        <Label Content="Sigma" HorizontalAlignment="Left" Margin="30,24,0,0" VerticalAlignment="Top"/>
+        <wpfTool:IntegerUpDown x:Name="Sigma_IntUpDown" Margin="10,55,0,0" HorizontalAlignment="Left" Width="78" Height="25" VerticalAlignment="Top"/>
+        <Label Content="Mu" HorizontalAlignment="Left" Margin="130,24,0,0" VerticalAlignment="Top"/>
+        <wpfTool:IntegerUpDown x:Name="Mu_IntUpDown" Margin="101,54,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="86"/>
+        
+        
     </Grid>
 </Window>
