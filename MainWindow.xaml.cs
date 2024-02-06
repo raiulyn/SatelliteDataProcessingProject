@@ -53,6 +53,14 @@ namespace SatelliteDataProcessingProject
                 List2.AddFirst(data.SensorB(Sigma_IntUpDown.Value.Value, Mu_IntUpDown.Value.Value));
             }
         }
+        private bool CheckIfCensorDataIsEmpty()
+        {
+            if(List1 != null && List2 != null)
+            {
+                return false;
+            }
+            return true;
+        }
 
         //4.3 Create a custom method called “ShowAllSensorData” which will display both LinkedLists in a ListView.
         //Add column titles “Sensor A” and “Sensor B” to the ListView. The input parameters are empty, and the return type is void.
@@ -73,7 +81,7 @@ namespace SatelliteDataProcessingProject
 
         //4.4 Create a button and associated click method that will call the LoadData and ShowAllSensorData methods.
         //The input parameters are empty, and the return type is void.
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
             LoadData();
             ShowAllSensorData();
@@ -152,7 +160,7 @@ namespace SatelliteDataProcessingProject
                     if (list.ElementAt(j - 1) > list.ElementAt(j))
                     {
                         LinkedListNode<double> current = list.Find(list.ElementAt(j));
-                        // TODO: Add Swap code here by swapping previous value with current value
+
                         double tempvar = current.Previous.Value;
                         current.Previous.Value = current.Value;
                         current.Value = tempvar;
@@ -224,24 +232,37 @@ namespace SatelliteDataProcessingProject
         */
         private void BinarySearchIterativeA_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (CheckIfCensorDataIsEmpty()) {  return; }
+
+            SelectionSort(List1);
+
+            var sw = Stopwatch.StartNew();
             
-            int result = BinarySearchIterative(List1, int.Parse(SearchTargetA_Textbox.Text), 0, List1.Count);
-            Debug.WriteLine(result);
+            BinarySearchIterative(List1, int.Parse(SearchTargetA_Textbox.Text), 0, List1.Count);
+
+            sw.Stop();
+            BinarySearchIterativeA_Timer.Text = sw.ElapsedTicks.ToString() + " ticks";
 
             DisplayListboxData(List1, "SensorA");
         }
         public void BinarySearchRecursiveA_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (CheckIfCensorDataIsEmpty()) { return; }
+
             int result = BinarySearchRecursive(List1, int.Parse(SearchTargetA_Textbox.Text), 0, List1.Count);
             Debug.WriteLine(result);
             DisplayListboxData(List1, "SensorA");
         }
         public void BinarySearchIterativeB_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (CheckIfCensorDataIsEmpty()) { return; }
+
             DisplayListboxData(List2, "SensorB");
         }
         public void BinarySearchRecursiveB_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (CheckIfCensorDataIsEmpty()) { return; }
+
             DisplayListboxData(List2, "SensorB");
         }
 
@@ -257,41 +278,67 @@ namespace SatelliteDataProcessingProject
         */
         public void SelectionSortA_Button_Click(object sender, RoutedEventArgs e)
         {
-            if(SelectionSort(List1))
+            if (CheckIfCensorDataIsEmpty()) { return; }
+
+            var sw = Stopwatch.StartNew();
+
+            if (SelectionSort(List1))
             {
                 ShowAllSensorData();
                 DisplayListboxData(List1, "SensorA");
             }
-            
+
+            sw.Stop();
+            SelectionSortA_Timer.Text = sw.ElapsedMilliseconds.ToString() + " milliseconds";
         }
         public void InsertionSortA_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (CheckIfCensorDataIsEmpty()) { return; }
+
+            var sw = Stopwatch.StartNew();
+
             if (InsertionSort(List1))
             {
                 ShowAllSensorData();
                 DisplayListboxData(List1, "SensorA");
             }
+
+            sw.Stop();
+            InsertionSortA_Timer.Text = sw.ElapsedMilliseconds.ToString() + " milliseconds";
         }
         public void SelectionSortB_Button_Click(object sender, RoutedEventArgs e)
         {
-            DisplayListboxData(List2, "SensorB");
+            if (CheckIfCensorDataIsEmpty()) { return; }
+
+            var sw = Stopwatch.StartNew();
+
             if (SelectionSort(List2))
             {
-
+                ShowAllSensorData();
+                DisplayListboxData(List2, "SensorB");
             }
+
+            sw.Stop();
+            SelectionSortB_Timer.Text = sw.ElapsedMilliseconds.ToString() + " milliseconds";
         }
         public void InsertionSortB_Button_Click(object sender, RoutedEventArgs e)
         {
-            DisplayListboxData(List2, "SensorB");
+            if (CheckIfCensorDataIsEmpty()) { return; }
+
+            var sw = Stopwatch.StartNew();
+
             if (InsertionSort(List2))
             {
-
+                ShowAllSensorData();
+                DisplayListboxData(List2, "SensorB");
             }
+
+            sw.Stop();
+            InsertionSortB_Timer.Text = sw.ElapsedMilliseconds.ToString() + " milliseconds";
         }
 
         //4.13 Add numeric input controls for Sigma and Mu. The value for Sigma must be limited with a minimum of 10 and a maximum of 20.
         //Set the default value to 10. The value for Mu must be limited with a minimum of 35 and a maximum of 75. Set the default value to 50.
-
         public void Init_IntUpDowns()
         {
             Sigma_IntUpDown.Minimum = 10;
@@ -303,7 +350,6 @@ namespace SatelliteDataProcessingProject
         }
 
         //4.14 Add textboxes for the search value; one for each sensor, ensure only numeric integer values can be entered.
-
         private void SearchTarget_Textbox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
