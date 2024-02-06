@@ -49,8 +49,8 @@ namespace SatelliteDataProcessingProject
 
             for (int i = 0; i < 400; i++)
             {
-                List1.AddFirst(data.SensorA(1.5, 5.8)); //TODO: Replace values
-                List2.AddFirst(data.SensorB(0.8, 3.6));
+                List1.AddFirst(data.SensorA(Sigma_IntUpDown.Value.Value, Mu_IntUpDown.Value.Value)); //TODO: Replace values
+                List2.AddFirst(data.SensorB(Sigma_IntUpDown.Value.Value, Mu_IntUpDown.Value.Value));
             }
         }
 
@@ -119,16 +119,16 @@ namespace SatelliteDataProcessingProject
         {
             int min = 0;
             int max = NumberOfNodes(list);
-            for (int i = 0; i < max - 1; i++)
+            for (int i = 0; i < max; i++)
             {
-                for (int j = 1 + 1; j < max; j++)
+                min = i;
+                for (int j = i + 1; j < max; j++)
                 {
                     if(list.ElementAt(j) < list.ElementAt(min))
                     {
                         min = j;
                     }
                 }
-
                 LinkedListNode<double> currentMin = list.Find(list.ElementAt(min));
                 LinkedListNode<double> currentI = list.Find(list.ElementAt(i));
 
@@ -137,7 +137,7 @@ namespace SatelliteDataProcessingProject
                 currentI.Value = temp;
             }
             
-            return false;
+            return true;
         }
 
         //4.8 Create a method called “InsertionSort” which has a single parameter of type LinkedList, while the calling code argument is the linkedlist name.
@@ -159,7 +159,7 @@ namespace SatelliteDataProcessingProject
                     }
                 }
             }
-            return false;
+            return true;
         }
 
         //4.9 Create a method called “BinarySearchIterative” which has the following four parameters: LinkedList, SearchValue, Minimum and Maximum.
@@ -224,19 +224,25 @@ namespace SatelliteDataProcessingProject
         */
         private void BinarySearchIterativeA_Button_Click(object sender, RoutedEventArgs e)
         {
+            
+            int result = BinarySearchIterative(List1, int.Parse(SearchTargetA_Textbox.Text), 0, List1.Count);
+            Debug.WriteLine(result);
+
             DisplayListboxData(List1, "SensorA");
         }
         public void BinarySearchRecursiveA_Button_Click(object sender, RoutedEventArgs e)
         {
+            int result = BinarySearchRecursive(List1, int.Parse(SearchTargetA_Textbox.Text), 0, List1.Count);
+            Debug.WriteLine(result);
             DisplayListboxData(List1, "SensorA");
         }
         public void BinarySearchIterativeB_Button_Click(object sender, RoutedEventArgs e)
         {
-            DisplayListboxData(List1, "SensorA");
+            DisplayListboxData(List2, "SensorB");
         }
         public void BinarySearchRecursiveB_Button_Click(object sender, RoutedEventArgs e)
         {
-            DisplayListboxData(List1, "SensorA");
+            DisplayListboxData(List2, "SensorB");
         }
 
         /*
@@ -251,18 +257,19 @@ namespace SatelliteDataProcessingProject
         */
         public void SelectionSortA_Button_Click(object sender, RoutedEventArgs e)
         {
-            DisplayListboxData(List1, "SensorA");
             if(SelectionSort(List1))
             {
-
+                ShowAllSensorData();
+                DisplayListboxData(List1, "SensorA");
             }
+            
         }
         public void InsertionSortA_Button_Click(object sender, RoutedEventArgs e)
         {
-            DisplayListboxData(List1, "SensorA");
             if (InsertionSort(List1))
             {
-
+                ShowAllSensorData();
+                DisplayListboxData(List1, "SensorA");
             }
         }
         public void SelectionSortB_Button_Click(object sender, RoutedEventArgs e)
@@ -297,7 +304,7 @@ namespace SatelliteDataProcessingProject
 
         //4.14 Add textboxes for the search value; one for each sensor, ensure only numeric integer values can be entered.
 
-        private void SearchTargetA_Textbox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void SearchTarget_Textbox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
