@@ -236,6 +236,11 @@ namespace SatelliteDataProcessingProject
         {
             if (CheckIfCensorDataIsEmpty()) {  return; }
             if (SearchTargetA_Textbox.Text == string.Empty) { DisplayMessage("Please input Search Value", "Error"); return; }
+            // TODO: Sort Check
+            if (!SelectionSort(List1))
+            {
+                return;
+            }
 
             var sw = Stopwatch.StartNew();
 
@@ -250,10 +255,14 @@ namespace SatelliteDataProcessingProject
             SensorB_ListBox.SelectedIndex = result;
             SensorB_ListBox.ScrollIntoView(SensorB_ListBox.SelectedItem);
         }
-        public void BinarySearchRecursiveA_Button_Click(object sender, RoutedEventArgs e)
+        private void BinarySearchRecursiveA_Button_Click(object sender, RoutedEventArgs e)
         {
             if (CheckIfCensorDataIsEmpty()) { return; }
             if (SearchTargetA_Textbox.Text == string.Empty) { DisplayMessage("Please input Search Value", "Error"); return; }
+            if (!SelectionSort(List1))
+            {
+                return;
+            }
 
             var sw = Stopwatch.StartNew();
 
@@ -268,10 +277,14 @@ namespace SatelliteDataProcessingProject
             SensorB_ListBox.SelectedIndex = result;
             SensorB_ListBox.ScrollIntoView(SensorB_ListBox.SelectedItem);
         }
-        public void BinarySearchIterativeB_Button_Click(object sender, RoutedEventArgs e)
+        private void BinarySearchIterativeB_Button_Click(object sender, RoutedEventArgs e)
         {
             if (CheckIfCensorDataIsEmpty()) { return; }
             if (SearchTargetB_Textbox.Text == string.Empty) { DisplayMessage("Please input Search Value", "Error"); return; }
+            if (!SelectionSort(List1))
+            {
+                return;
+            }
 
             var sw = Stopwatch.StartNew();
 
@@ -286,10 +299,14 @@ namespace SatelliteDataProcessingProject
             SensorB_ListBox.SelectedIndex = result;
             SensorB_ListBox.ScrollIntoView(SensorB_ListBox.SelectedItem);
         }
-        public void BinarySearchRecursiveB_Button_Click(object sender, RoutedEventArgs e)
+        private void BinarySearchRecursiveB_Button_Click(object sender, RoutedEventArgs e)
         {
             if (CheckIfCensorDataIsEmpty()) { return; }
             if (SearchTargetB_Textbox.Text == string.Empty) { DisplayMessage("Please input Search Value", "Error"); return; }
+            if (!SelectionSort(List1))
+            {
+                return;
+            }
 
             var sw = Stopwatch.StartNew();
 
@@ -315,7 +332,7 @@ namespace SatelliteDataProcessingProject
         Once the sort is complete the stopwatch will stop, and the number of milliseconds will be displayed in a read only textbox. 
         Finally, the code/method will call the “ShowAllSensorData” method and “DisplayListboxData” for the appropriate sensor.
         */
-        public void SelectionSortA_Button_Click(object sender, RoutedEventArgs e)
+        private void SelectionSortA_Button_Click(object sender, RoutedEventArgs e)
         {
             if (CheckIfCensorDataIsEmpty()) { return; }
 
@@ -330,7 +347,7 @@ namespace SatelliteDataProcessingProject
             sw.Stop();
             SelectionSortA_Timer.Text = sw.ElapsedMilliseconds.ToString() + " milliseconds";
         }
-        public void InsertionSortA_Button_Click(object sender, RoutedEventArgs e)
+        private void InsertionSortA_Button_Click(object sender, RoutedEventArgs e)
         {
             if (CheckIfCensorDataIsEmpty()) { return; }
 
@@ -345,7 +362,7 @@ namespace SatelliteDataProcessingProject
             sw.Stop();
             InsertionSortA_Timer.Text = sw.ElapsedMilliseconds.ToString() + " milliseconds";
         }
-        public void SelectionSortB_Button_Click(object sender, RoutedEventArgs e)
+        private void SelectionSortB_Button_Click(object sender, RoutedEventArgs e)
         {
             if (CheckIfCensorDataIsEmpty()) { return; }
 
@@ -360,7 +377,7 @@ namespace SatelliteDataProcessingProject
             sw.Stop();
             SelectionSortB_Timer.Text = sw.ElapsedMilliseconds.ToString() + " milliseconds";
         }
-        public void InsertionSortB_Button_Click(object sender, RoutedEventArgs e)
+        private void InsertionSortB_Button_Click(object sender, RoutedEventArgs e)
         {
             if (CheckIfCensorDataIsEmpty()) { return; }
 
