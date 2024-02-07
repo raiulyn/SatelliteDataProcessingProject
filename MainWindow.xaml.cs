@@ -178,7 +178,7 @@ namespace SatelliteDataProcessingProject
         //The method code must follow the pseudo code supplied below in the Appendix.
         public int BinarySearchIterative(LinkedList<double> list, int searchValue, int min, int max)
         {
-            while(min <= max - 1)
+            while(min <= max)
             {
                 int middle = (min + max) / 2;
                 if(searchValue == list.ElementAt(middle))
@@ -203,7 +203,7 @@ namespace SatelliteDataProcessingProject
         //The method code must follow the pseudo code supplied below in the Appendix.
         public int BinarySearchRecursive(LinkedList<double> list, int searchValue, int min, int max)
         {
-            if(min <= max - 1)
+            if(min <= max)
             {
                 int middle = (min + max) / 2;
                 if(searchValue == list.ElementAt(middle))
