@@ -14,6 +14,7 @@ using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
+using System.Collections;
 
 namespace SatelliteDataProcessingProject
 {
@@ -35,8 +36,8 @@ namespace SatelliteDataProcessingProject
         //The data must be of type “double”;
         //you are not permitted to use any additional classes, nodes, pointers or data structures (array, list, etc) in the implementation of this application.
         //The two LinkedLists of type double are to be declared as global within the “public partial class”.
-        public LinkedList<double> List1 { get; set; }
-        public LinkedList<double> List2 { get; set; }
+        public LinkedList<double> ListSensorA { get; set; }
+        public LinkedList<double> ListSensorB { get; set; }
 
         //4.2 Copy the Galileo.DLL file into the root directory of your solution folder and add the appropriate reference in the solution explorer.
         //Create a method called “LoadData” which will populate both LinkedLists.
@@ -44,19 +45,19 @@ namespace SatelliteDataProcessingProject
         //The LinkedList size will be hardcoded inside the method and must be equal to 400. The input parameters are empty, and the return type is void.
         public void LoadData()
         {
-            List1 = new LinkedList<double>();
-            List2 = new LinkedList<double>();
+            ListSensorA = new LinkedList<double>();
+            ListSensorB = new LinkedList<double>();
             var data = new Galileo6.ReadData();
 
             for (int i = 0; i < 400; i++)
             {
-                List1.AddFirst(data.SensorA(Sigma_IntUpDown.Value.Value, Mu_IntUpDown.Value.Value));
-                List2.AddFirst(data.SensorB(Sigma_IntUpDown.Value.Value, Mu_IntUpDown.Value.Value));
+                ListSensorA.AddFirst(data.SensorA(Sigma_IntUpDown.Value.Value, Mu_IntUpDown.Value.Value));
+                ListSensorB.AddFirst(data.SensorB(Sigma_IntUpDown.Value.Value, Mu_IntUpDown.Value.Value));
             }
         }
         private bool CheckIfCensorDataIsEmpty()
         {
-            if(List1 != null && List2 != null)
+            if(ListSensorA != null && ListSensorB != null)
             {
                 return false;
             }
@@ -69,9 +70,9 @@ namespace SatelliteDataProcessingProject
         public void ShowAllSensorData()
         {
             Sensors_ListView.Items.Clear();
-            for (int i = 0; i < List1.Count; i++)
+            for (int i = 0; i < ListSensorA.Count; i++)
             {
-                Sensors_ListView.Items.Add(new SensorDataItem { SensorA = List1.ElementAt(i).ToString(), SensorB = List2.ElementAt(i).ToString() });
+                Sensors_ListView.Items.Add(new SensorDataItem { SensorA = ListSensorA.ElementAt(i).ToString(), SensorB = ListSensorB.ElementAt(i).ToString() });
             }
         }
         private class SensorDataItem
@@ -236,90 +237,86 @@ namespace SatelliteDataProcessingProject
         {
             if (CheckIfCensorDataIsEmpty()) {  return; }
             if (SearchTargetA_Textbox.Text == string.Empty) { DisplayMessage("Please input Search Value", "Error"); return; }
-            // TODO: Sort Check
-            if (!SelectionSort(List1))
-            {
-                return;
-            }
+            if (SensorA_ListBox.Items.Count <= 0 || SensorB_ListBox.Items.Count <= 0) { DisplayMessage("Please sort both Sensor Lists", "Error"); return; }
 
             var sw = Stopwatch.StartNew();
 
-            int result = BinarySearchIterative(List1, int.Parse(SearchTargetA_Textbox.Text), 0, List1.Count);
+            int result = BinarySearchIterative(ListSensorA, int.Parse(SearchTargetA_Textbox.Text), 0, ListSensorA.Count);
             
             sw.Stop();
             BinarySearchIterativeA_Timer.Text = sw.ElapsedTicks.ToString() + " ticks";
 
-            DisplayListboxData(List1, "SensorA");
-            SensorA_ListBox.SelectedIndex = result;
-            SensorA_ListBox.ScrollIntoView(SensorA_ListBox.SelectedItem);
-            SensorB_ListBox.SelectedIndex = result;
-            SensorB_ListBox.ScrollIntoView(SensorB_ListBox.SelectedItem);
+            DisplayListboxData(ListSensorA, "SensorA");
+            HighlightResults(SensorA_ListBox, result);
+            HighlightResults(SensorB_ListBox, result);
         }
         private void BinarySearchRecursiveA_Button_Click(object sender, RoutedEventArgs e)
         {
             if (CheckIfCensorDataIsEmpty()) { return; }
             if (SearchTargetA_Textbox.Text == string.Empty) { DisplayMessage("Please input Search Value", "Error"); return; }
-            if (!SelectionSort(List1))
-            {
-                return;
-            }
+            if (SensorA_ListBox.Items.Count <= 0 || SensorB_ListBox.Items.Count <= 0) { DisplayMessage("Please sort both Sensor Lists", "Error"); return; }
 
             var sw = Stopwatch.StartNew();
 
-            int result = BinarySearchRecursive(List1, int.Parse(SearchTargetA_Textbox.Text), 0, List1.Count);
+            int result = BinarySearchRecursive(ListSensorA, int.Parse(SearchTargetA_Textbox.Text), 0, ListSensorA.Count);
 
             sw.Stop();
             BinarySearchRecursiveA_Timer.Text = sw.ElapsedTicks.ToString() + " ticks";
 
-            DisplayListboxData(List1, "SensorA");
-            SensorA_ListBox.SelectedIndex = result;
-            SensorA_ListBox.ScrollIntoView(SensorA_ListBox.SelectedItem);
-            SensorB_ListBox.SelectedIndex = result;
-            SensorB_ListBox.ScrollIntoView(SensorB_ListBox.SelectedItem);
+            DisplayListboxData(ListSensorA, "SensorA");
+            HighlightResults(SensorA_ListBox, result);
+            HighlightResults(SensorB_ListBox, result);
         }
         private void BinarySearchIterativeB_Button_Click(object sender, RoutedEventArgs e)
         {
             if (CheckIfCensorDataIsEmpty()) { return; }
             if (SearchTargetB_Textbox.Text == string.Empty) { DisplayMessage("Please input Search Value", "Error"); return; }
-            if (!SelectionSort(List1))
-            {
-                return;
-            }
+            if (SensorA_ListBox.Items.Count <= 0 || SensorB_ListBox.Items.Count <= 0) { DisplayMessage("Please sort both Sensor Lists", "Error"); return; }
 
             var sw = Stopwatch.StartNew();
 
-            int result = BinarySearchIterative(List2, int.Parse(SearchTargetB_Textbox.Text), 0, List2.Count);
+            int result = BinarySearchIterative(ListSensorB, int.Parse(SearchTargetB_Textbox.Text), 0, ListSensorB.Count);
 
             sw.Stop();
             BinarySearchIterativeB_Timer.Text = sw.ElapsedTicks.ToString() + " ticks";
 
-            DisplayListboxData(List2, "SensorB");
-            SensorA_ListBox.SelectedIndex = result;
-            SensorA_ListBox.ScrollIntoView(SensorA_ListBox.SelectedItem);
-            SensorB_ListBox.SelectedIndex = result;
-            SensorB_ListBox.ScrollIntoView(SensorB_ListBox.SelectedItem);
+            DisplayListboxData(ListSensorB, "SensorB");
+            HighlightResults(SensorA_ListBox, result);
+            HighlightResults(SensorB_ListBox, result);
         }
         private void BinarySearchRecursiveB_Button_Click(object sender, RoutedEventArgs e)
         {
             if (CheckIfCensorDataIsEmpty()) { return; }
             if (SearchTargetB_Textbox.Text == string.Empty) { DisplayMessage("Please input Search Value", "Error"); return; }
-            if (!SelectionSort(List1))
-            {
-                return;
-            }
+            if (SensorA_ListBox.Items.Count <= 0 || SensorB_ListBox.Items.Count <= 0) { DisplayMessage("Please sort both Sensor Lists", "Error"); return; }
 
             var sw = Stopwatch.StartNew();
 
-            int result = BinarySearchRecursive(List2, int.Parse(SearchTargetB_Textbox.Text), 0, List2.Count);
+            int result = BinarySearchRecursive(ListSensorB, int.Parse(SearchTargetB_Textbox.Text), 0, ListSensorB.Count);
 
             sw.Stop();
             BinarySearchRecursiveB_Timer.Text = sw.ElapsedTicks.ToString() + " ticks";
 
-            DisplayListboxData(List2, "SensorB");
-            SensorA_ListBox.SelectedIndex = result;
-            SensorA_ListBox.ScrollIntoView(SensorA_ListBox.SelectedItem);
-            SensorB_ListBox.SelectedIndex = result;
-            SensorB_ListBox.ScrollIntoView(SensorB_ListBox.SelectedItem);
+            DisplayListboxData(ListSensorB, "SensorB");
+            HighlightResults(SensorA_ListBox, result);
+            HighlightResults(SensorB_ListBox, result);
+        }
+
+        private void HighlightResults(ListBox listbox, int result)
+        {
+            listbox.SelectedItems.Clear();
+            if (result > 2)
+            {
+                listbox.SelectedItems.Add(listbox.Items.GetItemAt(result - 2));
+                listbox.SelectedItems.Add(listbox.Items.GetItemAt(result - 1));
+            }
+            listbox.SelectedItems.Add(listbox.Items.GetItemAt(result));
+            if (result < 398)
+            {
+                listbox.SelectedItems.Add(listbox.Items.GetItemAt(result + 1));
+                listbox.SelectedItems.Add(listbox.Items.GetItemAt(result + 2));
+            }
+            listbox.ScrollIntoView(listbox.SelectedItem);
         }
 
         /*
@@ -338,13 +335,13 @@ namespace SatelliteDataProcessingProject
 
             var sw = Stopwatch.StartNew();
 
-            if (SelectionSort(List1))
-            {
-                ShowAllSensorData();
-                DisplayListboxData(List1, "SensorA");
-            }
+            SelectionSort(ListSensorA);
 
             sw.Stop();
+
+            ShowAllSensorData();
+            DisplayListboxData(ListSensorA, "SensorA");
+
             SelectionSortA_Timer.Text = sw.ElapsedMilliseconds.ToString() + " milliseconds";
         }
         private void InsertionSortA_Button_Click(object sender, RoutedEventArgs e)
@@ -353,13 +350,13 @@ namespace SatelliteDataProcessingProject
 
             var sw = Stopwatch.StartNew();
 
-            if (InsertionSort(List1))
-            {
-                ShowAllSensorData();
-                DisplayListboxData(List1, "SensorA");
-            }
-
+            InsertionSort(ListSensorA);
+            
             sw.Stop();
+
+            ShowAllSensorData();
+            DisplayListboxData(ListSensorA, "SensorA");
+
             InsertionSortA_Timer.Text = sw.ElapsedMilliseconds.ToString() + " milliseconds";
         }
         private void SelectionSortB_Button_Click(object sender, RoutedEventArgs e)
@@ -368,13 +365,13 @@ namespace SatelliteDataProcessingProject
 
             var sw = Stopwatch.StartNew();
 
-            if (SelectionSort(List2))
-            {
-                ShowAllSensorData();
-                DisplayListboxData(List2, "SensorB");
-            }
+            SelectionSort(ListSensorB);
 
             sw.Stop();
+
+            ShowAllSensorData();
+            DisplayListboxData(ListSensorB, "SensorB");
+
             SelectionSortB_Timer.Text = sw.ElapsedMilliseconds.ToString() + " milliseconds";
         }
         private void InsertionSortB_Button_Click(object sender, RoutedEventArgs e)
@@ -383,13 +380,13 @@ namespace SatelliteDataProcessingProject
 
             var sw = Stopwatch.StartNew();
 
-            if (InsertionSort(List2))
-            {
-                ShowAllSensorData();
-                DisplayListboxData(List2, "SensorB");
-            }
+            InsertionSort(ListSensorB);
 
             sw.Stop();
+
+            ShowAllSensorData();
+            DisplayListboxData(ListSensorB, "SensorB");
+
             InsertionSortB_Timer.Text = sw.ElapsedMilliseconds.ToString() + " milliseconds";
         }
 
