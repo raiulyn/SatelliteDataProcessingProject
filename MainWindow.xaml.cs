@@ -51,8 +51,8 @@ namespace SatelliteDataProcessingProject
 
             for (int i = 0; i < 400; i++)
             {
-                ListSensorA.AddFirst(data.SensorA(Sigma_IntUpDown.Value.Value, Mu_IntUpDown.Value.Value));
-                ListSensorB.AddFirst(data.SensorB(Sigma_IntUpDown.Value.Value, Mu_IntUpDown.Value.Value));
+                ListSensorA.AddFirst(data.SensorA(Mu_IntUpDown.Value.Value, Sigma_IntUpDown.Value.Value));
+                ListSensorB.AddFirst(data.SensorB(Mu_IntUpDown.Value.Value, Sigma_IntUpDown.Value.Value));
             }
         }
         private bool CheckIfCensorDataIsEmpty()
@@ -130,24 +130,26 @@ namespace SatelliteDataProcessingProject
         {
             int min = 0;
             int max = NumberOfNodes(list);
-            for (int i = 0; i < max; i++)
+            for (int i = 0; i < max - 1; i++)
             {
                 min = i;
                 for (int j = i + 1; j < max; j++)
                 {
-                    if(list.ElementAt(j) < list.ElementAt(min))
+                    if (list.ElementAt(j) < list.ElementAt(min))
                     {
                         min = j;
                     }
                 }
-                LinkedListNode<double> currentMin = list.Find(list.ElementAt(min));
-                LinkedListNode<double> currentI = list.Find(list.ElementAt(i));
 
-                var temp = currentMin.Value;
-                currentMin.Value = currentI.Value;
-                currentI.Value = temp;
+                LinkedListNode<double> minNode = list.Find(list.ElementAt(min));
+                LinkedListNode<double> iNode = list.Find(list.ElementAt(i));
+
+                double temp = minNode.Value;
+                minNode.Value = iNode.Value;
+                iNode.Value = temp;
+                
             }
-            
+            Debug.WriteLine("Sorted");
             return true;
         }
 
